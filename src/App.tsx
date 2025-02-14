@@ -1,8 +1,13 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginMain from "./pages/LoginMain";
+
 function App() {
   return (
-    <>
-      <div>asldkjf;sl</div>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginMain />} />
+      </Routes>
+    </Router>
   );
 }
 
