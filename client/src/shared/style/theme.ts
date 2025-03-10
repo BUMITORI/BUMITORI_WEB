@@ -1,8 +1,8 @@
 const theme = {
   white: "#FFFFFF",
-  gray50: "##f9fafb",
-  gray100: "#D9D9D9",
-  gray200: "##E1E1E1",
+  gray50: "##F9FAFB",
+  gray100: "#E1E1E1",
+  gray200: "##BCBCBC",
   gray300: "#8A8A8A",
   gray400: "#666666",
   gray500: "#5C5C5C",
