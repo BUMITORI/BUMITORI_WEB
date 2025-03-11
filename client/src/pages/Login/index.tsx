@@ -2,7 +2,7 @@ import * as S from "./style";
 import Logo from "../../assets/logo.svg";
 import GoogleLogo from "../../assets/googleLogo.svg";
 
-const LoginMain = () => {
+const Login = () => {
   return (
     <S.Layout>
       <S.MainContainer>
@@ -17,4 +17,4 @@ const LoginMain = () => {
   );
 };
 
-export default LoginMain;
+export default Login;
