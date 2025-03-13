@@ -3,6 +3,10 @@ import theme from "../style/theme";
 import { Pretendard } from "../style/font";
 import { useState } from "react";
 
+interface ButtonProps {
+  text: string;
+}
+
 const Button = styled.button<{ isClicked?: boolean }>`
   padding: 16px 44px;
   ${Pretendard.Bnt2}
@@ -13,7 +17,7 @@ const Button = styled.button<{ isClicked?: boolean }>`
   border-bottom: ${({ isClicked }) => (isClicked ? `2px solid black` : "none")};
 `;
 
-const WholeBtn = () => {
+const WholeBtn = ({ text }: ButtonProps) => {
   const [isClicked, setIsClicked] = useState(false);
   const onClickBtn = () => {
     setIsClicked(!isClicked);
@@ -21,7 +25,7 @@ const WholeBtn = () => {
 
   return (
     <Button onClick={onClickBtn} isClicked={isClicked}>
-      전체
+      {text}
     </Button>
   );
 };
