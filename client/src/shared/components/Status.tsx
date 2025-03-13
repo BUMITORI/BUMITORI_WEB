@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import JoinCategory from "./JoinCategory";
-import ChevronRightImg from "../../assets/chevronRight.svg";
 import theme from "../style/theme";
 import { Pretendard } from "../style/font";
 
@@ -16,7 +15,7 @@ const Layout = styled.main`
   display: flex;
   width: fit-content;
   align-items: center;
-  padding: 16px 20px;
+  padding: 16px 321px 16px 20px;
   background-color: ${theme.gray50};
   border-radius: 16px;
   cursor: pointer;
@@ -33,9 +32,6 @@ const DateShow = styled.span`
   padding-left: 10px;
   ${Pretendard.caption}
   color: ${theme.gray200};
-`;
-const RightImg = styled.img`
-  padding-left: 237px;
 `;
 
 const Status = ({
@@ -55,7 +51,6 @@ const Status = ({
         </StudentInfo>
         <DateShow>{date}</DateShow>
       </StatusContainer>
-      <RightImg src={ChevronRightImg} />
     </Layout>
   );
 };
