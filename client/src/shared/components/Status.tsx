@@ -5,8 +5,10 @@ import theme from "../style/theme";
 import { Pretendard } from "../style/font";
 
 interface StatusProps {
+  joinStatus: string;
   roomNumber: number;
-  studentName: string;
+  building: string;
+  name: string;
   date: string;
 }
 
@@ -36,15 +38,22 @@ const RightImg = styled.img`
   padding-left: 237px;
 `;
 
-const Status = ({ roomNumber, studentName, date }: StatusProps) => {
+const Status = ({
+  joinStatus,
+  roomNumber,
+  building,
+  name,
+  date,
+}: StatusProps) => {
   return (
     <Layout>
       <StatusContainer>
-        <JoinCategory isJoin="" />
+        <JoinCategory isJoin={joinStatus} />
         <StudentInfo>
-          {roomNumber}호 {studentName}
+          {building}
+          {roomNumber}호 {name}
         </StudentInfo>
-        <DateShow>{date} (일) 6:40:55</DateShow>
+        <DateShow>{date}</DateShow>
       </StatusContainer>
       <RightImg src={ChevronRightImg} />
     </Layout>
