@@ -16,7 +16,7 @@ const Main = () => {
       roomId: 304,
       building: "A",
       gender: "여",
-      enterStatus: 1,
+      enterStatus: 2,
       enterTime: "3월 12일 (일) 6:40:55",
     },
     {
@@ -25,7 +25,7 @@ const Main = () => {
       roomId: 304,
       building: "A",
       gender: "여",
-      enterStatus: 1,
+      enterStatus: 3,
       enterTime: "3월 12일 (일) 6:40:55",
     },
     {
@@ -34,7 +34,7 @@ const Main = () => {
       roomId: 405,
       building: "A",
       gender: "남",
-      enterStatus: 1,
+      enterStatus: 2,
       enterTime: "3월 12일 (일) 6:40:55",
     },
     {
@@ -60,7 +60,7 @@ const Main = () => {
   const getJoinStatus = (enterStatus: number) => {
     switch (enterStatus) {
       case 1:
-        return "입소완료";
+        return "입소 완료";
       case 2:
         return "입소전";
       case 3:
