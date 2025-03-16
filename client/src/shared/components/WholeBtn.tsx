@@ -11,7 +11,7 @@ const Button = styled.button<{ isClicked?: boolean }>`
   padding: 16px 44px;
   ${Pretendard.Bnt2}
   background-color: white;
-  color: ${theme.gray200};
+  color: ${({ isClicked }) => (isClicked ? theme.black : theme.gray200)};
   cursor: pointer;
   border: none;
   border-bottom: ${({ isClicked }) => (isClicked ? `2px solid black` : "none")};
