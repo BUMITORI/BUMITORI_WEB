@@ -7,32 +7,29 @@ interface JoinCategoryProps {
 }
 
 const Layout = styled.div<{ color: string }>`
-  width: fit-content;
+  text-align: center;
+  width: 76px;
   background-color: ${({ color }) => color};
   color: ${theme.white};
   ${Pretendard.Bnt3}
-  padding: 10px 18px;
+  padding: 10px 0;
   border-radius: 8px;
 `;
 
 const JoinCategory = ({ isJoin }: JoinCategoryProps) => {
-  let categoryTitle = "";
   let color = "";
 
-  if (isJoin === "join") {
-    categoryTitle = "입소 완료";
+  if (isJoin === "입소 완료") {
     color = theme.blue;
-  } else if (isJoin === "noJoin") {
-    categoryTitle = "미입소";
+  } else if (isJoin === "미입소") {
     color = theme.red;
   } else {
-    categoryTitle = "입소전";
     color = theme.green;
   }
 
   return (
     <Layout color={color}>
-      <span>{categoryTitle}</span>
+      <span>{isJoin}</span>
     </Layout>
   );
 };
