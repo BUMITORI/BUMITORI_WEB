@@ -1,30 +1,26 @@
 import styled from "styled-components";
 import theme from "../style/theme";
 import { Pretendard } from "../style/font";
-import { useState } from "react";
 
 interface ButtonProps {
   text: string;
+  isSelected: boolean;
+  onClick: () => void;
 }
 
-const Button = styled.button<{ isClicked?: boolean }>`
+const Button = styled.button<{ isSelected: boolean }>`
   padding: 16px 44px;
   ${Pretendard.Bnt2}
   background-color: white;
-  color: ${({ isClicked }) => (isClicked ? theme.black : theme.gray200)};
+  color: ${({ isSelected }) => (isSelected ? theme.black : theme.gray200)};
   cursor: pointer;
   border: none;
-  border-bottom: ${({ isClicked }) => (isClicked ? `2px solid black` : "none")};
+  border-bottom: ${({ isSelected }) => (isSelected ? `2px solid black` : "none")};
 `;
 
-const WholeBtn = ({ text }: ButtonProps) => {
-  const [isClicked, setIsClicked] = useState(false);
-  const onClickBtn = () => {
-    setIsClicked(!isClicked);
-  };
-
+const WholeBtn = ({ text, isSelected, onClick }: ButtonProps) => {
   return (
-    <Button onClick={onClickBtn} isClicked={isClicked}>
+    <Button onClick={onClick} isSelected={isSelected}>
       {text}
     </Button>
   );

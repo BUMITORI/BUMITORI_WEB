@@ -7,6 +7,7 @@ import theme from "../../shared/style/theme";
 
 const Main = () => {
   const [selectedFloor, setSelectedFloor] = useState("전체");
+  const [selectedCategory, setSelectedCategory] = useState("전체");
 
   const StudentDetail = [
     {
@@ -79,10 +80,14 @@ const Main = () => {
             <S.Date>2025년 3월 첫째주</S.Date>
           </S.TextContainer>
           <S.RightWholeBtnContainer>
-            <WholeBtn text="전체" />
-            <WholeBtn text="남학생" />
-            <WholeBtn text="여학생" />
-            <WholeBtn text="미입소자" />
+            {["전체", "남학생", "여학생", "미입소자"].map((category) => (
+              <WholeBtn
+                key={category}
+                text={category}
+                isSelected={selectedCategory === category}
+                onClick={() => setSelectedCategory(category)}
+              />
+            ))}
           </S.RightWholeBtnContainer>
           <S.StudentListContainer>
             {StudentDetail.map((student) => (
