@@ -63,7 +63,6 @@ export const FloorBtn = styled.button`
   background-color: transparent;
   cursor: pointer;
   ${Pretendard.Bnt2}
-  color: ${theme.gray200};
 `;
 export const NoJoinBtn = styled.button`
   border: none;

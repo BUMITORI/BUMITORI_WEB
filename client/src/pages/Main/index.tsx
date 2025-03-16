@@ -2,8 +2,12 @@ import * as S from "./style";
 import Header from "../../shared/components/Header";
 import WholeBtn from "../../shared/components/WholeBtn";
 import Status from "../../shared/components/Status";
+import { useState } from "react";
+import theme from "../../shared/style/theme";
 
 const Main = () => {
+  const [selectedFloor, setSelectedFloor] = useState("전체");
+
   const StudentDetail = [
     {
       studentId: 1,
@@ -95,11 +99,23 @@ const Main = () => {
         </S.RightContainer>
         <S.Line />
         <S.LeftContainer>
-          <S.WholeBtn>전체</S.WholeBtn>
-          <S.FloorBtn>A동 기숙사 2층</S.FloorBtn>
-          <S.FloorBtn>A동 기숙사 3층</S.FloorBtn>
-          <S.FloorBtn>B동 기숙사 3층</S.FloorBtn>
-          <S.FloorBtn>B동 기숙사 4층</S.FloorBtn>
+          {[
+            "전체",
+            "A동 기숙사 2층",
+            "A동 기숙사 3층",
+            "B동 기숙사 3층",
+            "B동 기숙사 4층",
+          ].map((floor) => (
+            <S.FloorBtn
+              key={floor}
+              onClick={() => setSelectedFloor(floor)}
+              style={{
+                color: selectedFloor === floor ? theme.blue : theme.gray200,
+              }}
+            >
+              {floor}
+            </S.FloorBtn>
+          ))}
           <S.NoJoinBtn>미입소 등록</S.NoJoinBtn>
         </S.LeftContainer>
       </S.MainContainer>
