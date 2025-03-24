@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import "./index.css";
 import Main from "./pages/Main";
 import AlarmBox from "./shared/components/AlarmBox";
+import NotAdmit from "./pages/Not-admit";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/auth/login" element={<Login />} />
+        <Route path="/NotAdmit" element={<NotAdmit />} />
         <Route
           path="/glgl"
           element={

@@ -1,4 +1,5 @@
 import * as S from "./style";
+import { useNavigate } from "react-router-dom";
 import Header from "../../shared/components/Header";
 import WholeBtn from "../../shared/components/WholeBtn";
 import Status from "../../shared/components/Status";
@@ -8,6 +9,8 @@ import theme from "../../shared/style/theme";
 const Main = () => {
   const [selectedFloor, setSelectedFloor] = useState("전체");
   const [selectedCategory, setSelectedCategory] = useState("전체");
+
+  const navigate = useNavigate();
 
   const StudentDetail = [
     {
@@ -121,7 +124,9 @@ const Main = () => {
               {floor}
             </S.FloorBtn>
           ))}
-          <S.NoJoinBtn>미입소 등록</S.NoJoinBtn>
+          <S.NoJoinBtn onClick={() => navigate("/NotAdmit")}>
+            미입소 등록
+          </S.NoJoinBtn>
         </S.LeftContainer>
       </S.MainContainer>
     </S.Layout>
