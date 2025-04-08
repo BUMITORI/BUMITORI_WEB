@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import "./index.css";
 import Main from "./pages/Main";
-import AlarmBox from "./shared/components/AlarmBox";
 import NotAdmit from "./pages/Not-admit";
+import AdminMain from "./admin/AdminMain";
 
 function App() {
   return (
@@ -11,18 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/auth/login" element={<Login />} />
-        <Route path="/NotAdmit" element={<NotAdmit />} />
-        <Route
-          path="/glgl"
-          element={
-            <AlarmBox
-              isAlarm="알림"
-              name="강민지"
-              roomNumber={205}
-              date="2월 28일(일) 4:55"
-            />
-          }
-        />
+        <Route path="/not-admit" element={<NotAdmit />} />
+        <Route path="/admin-main" element={<AdminMain date="4월 5일" />} />
       </Routes>
     </Router>
   );
