@@ -7,16 +7,17 @@ import NoJoinStatus from "./NoJoinStatus";
 
 interface AlarmBoxProps {
   isAlarm: string;
-  name: string;
-  roomNumber: number;
-  date: string;
+  name?: string;
+  roomNumber?: number;
+  date?: string;
+  noticeText?: string;
 }
 
 const Layout = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: fit-content;
+  width: 840px;
   padding: 25.5px 26px;
   border-radius: 16px;
   gap: 4px;
@@ -26,6 +27,7 @@ const AlarmStatusContainer = styled.div`
   display: flex;
 `;
 const AlarmInfo = styled.span`
+  padding-left: 10px;
   ${Pretendard.Body3}
   color: ${theme.gray300};
 `;
@@ -43,7 +45,13 @@ const StudentInfo = styled.span`
   color: ${theme.black};
 `;
 
-const AlarmBox = ({ isAlarm, name, roomNumber, date }: AlarmBoxProps) => {
+const AlarmBox = ({
+  isAlarm,
+  name,
+  roomNumber,
+  date,
+  noticeText,
+}: AlarmBoxProps) => {
   let alarmIcon = "";
   let alarmTitle = "";
 
@@ -59,14 +67,20 @@ const AlarmBox = ({ isAlarm, name, roomNumber, date }: AlarmBoxProps) => {
       <AlarmStatusContainer>
         <img src={alarmIcon} />
         <AlarmInfo>{alarmTitle}</AlarmInfo>
-        <AlarmTime>{date}</AlarmTime>
+        {isAlarm != "알림" && <AlarmTime>{date}</AlarmTime>}
       </AlarmStatusContainer>
-      <StudentInfo>
-        <span>
-          {roomNumber}호 {name}
-        </span>
-        <NoJoinStatus noJoinStatus="승인 완료" />
-      </StudentInfo>
+      {isAlarm == "알림" ? (
+        <StudentInfo>
+          <span>
+            {roomNumber}호 {name}
+          </span>
+          <NoJoinStatus noJoinStatus="승인 완료" />
+        </StudentInfo>
+      ) : (
+        <StudentInfo>
+          <span>{noticeText}</span>
+        </StudentInfo>
+      )}
     </Layout>
   );
 };
