@@ -4,6 +4,7 @@ import "./index.css";
 import Main from "./pages/Main";
 import NotAdmit from "./pages/Not-admit";
 import AdminMain from "./admin/AdminMain";
+import Alarm from "./pages/Alarm";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/auth/login" element={<Login />} />
         <Route path="/not-admit" element={<NotAdmit />} />
         <Route path="/admin-main" element={<AdminMain date="4월 5일" />} />
+        <Route path="/alarm" element={<Alarm />} />
       </Routes>
     </Router>
   );
