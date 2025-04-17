@@ -34,7 +34,6 @@ const NotAdmit = () => {
         <S.NotAdmitContainer>
           <S.TitleBox>
             <S.Title>미입소 사유</S.Title>
-            <S.Date>2025년 3월 첫째주</S.Date>
           </S.TitleBox>
           <S.SubTitle>B306호 강민지</S.SubTitle>
           <S.FormContainer>

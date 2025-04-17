@@ -99,7 +99,7 @@ export const Mobile = ({selectedFloor, setSelectedFloor, selectedCategory, setSe
               />
             ))}
           </M.StudentListContainer>
-          <M.NoJoinBtn>미입소 신청</M.NoJoinBtn>
+          <M.NoJoinBtn onClick={() => navigate("/not-admit")}>미입소 신청</M.NoJoinBtn>
         </M.RightContainer>
       </M.MainContainer>
     </M.Layout>

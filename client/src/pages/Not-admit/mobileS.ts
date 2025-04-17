@@ -53,10 +53,7 @@ export const Date = styled.p`
 
 export const SubTitle = styled.p`
   ${Pretendard.Body3}
-  color: ${theme.gray200};
-  padding-top: 8px;
-  font-weight: 600;
-
+  color: ${theme.gray300};
   @media (max-width: ${BREAKPOINT}) {
     font-size: 0.875rem;
   }

@@ -9,7 +9,7 @@ export const Layout = styled.main`
 
 export const MainContainer = styled.div`
   display: flex;
-  padding: 60px 0 200px 0;
+  padding: 20px 0 200px 0;
   justify-content: center;
 `;
 
@@ -17,7 +17,7 @@ export const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-right: 0px;
-  width: 80%;
+  width: 90%;
 `;
 export const TitleContainer = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ export const RightWholeBtnContainer = styled.div`
 `;
 
 export const Title = styled.span`
-  ${Pretendard.Title1}
+  ${Pretendard.Title2}
   color: ${theme.black};
 `;
 export const Date = styled.span`
