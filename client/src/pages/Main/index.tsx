@@ -1,136 +1,37 @@
-import * as S from "./style";
-import { useNavigate } from "react-router-dom";
-import Header from "../../shared/components/Header";
-import WholeBtn from "../../shared/components/WholeBtn";
-import Status from "../../shared/components/Status";
 import { useState } from "react";
-import theme from "../../shared/style/theme";
+import useMedia from 'use-media'
+
+import { Desktop } from "./desktop.tsx"
+import { Mobile } from "./mobile.tsx"
+
 
 const Main = () => {
   const [selectedFloor, setSelectedFloor] = useState("전체");
   const [selectedCategory, setSelectedCategory] = useState("전체");
 
-  const navigate = useNavigate();
-
-  const StudentDetail = [
-    {
-      studentId: 1,
-      name: "강민지",
-      roomId: 304,
-      building: "A",
-      gender: "여",
-      enterStatus: 2,
-      enterTime: "3월 12일 (일) 6:40:55",
-    },
-    {
-      studentId: 2,
-      name: "김시연",
-      roomId: 304,
-      building: "A",
-      gender: "여",
-      enterStatus: 3,
-      enterTime: "3월 12일 (일) 6:40:55",
-    },
-    {
-      studentId: 3,
-      name: "정소울",
-      roomId: 405,
-      building: "A",
-      gender: "남",
-      enterStatus: 2,
-      enterTime: "3월 12일 (일) 6:40:55",
-    },
-    {
-      studentId: 4,
-      name: "조윤소",
-      roomId: 205,
-      building: "B",
-      gender: "여",
-      enterStatus: 1,
-      enterTime: "3월 12일 (일) 6:40:55",
-    },
-    {
-      studentId: 5,
-      name: "강민지",
-      roomId: 305,
-      building: "B",
-      gender: "남",
-      enterStatus: 1,
-      enterTime: "3월 12일 (일) 6:40:55",
-    },
-  ];
-
-  const getJoinStatus = (enterStatus: number) => {
-    switch (enterStatus) {
-      case 1:
-        return "입소 완료";
-      case 2:
-        return "입소전";
-      case 3:
-        return "미입소";
-      default:
-        return "";
-    }
-  };
+  const isDesktop = useMedia({ minWidth: 800 })
+  const isMobile = useMedia({ maxWidth: 800 })
 
   return (
-    <S.Layout>
-      <Header />
-      <S.MainContainer>
-        <S.RightContainer>
-          <S.TextContainer>
-            <S.Title>출석리스트</S.Title>
-            <S.Date>2025년 3월 첫째주</S.Date>
-          </S.TextContainer>
-          <S.RightWholeBtnContainer>
-            {["전체", "남학생", "여학생", "미입소자"].map((category) => (
-              <WholeBtn
-                key={category}
-                text={category}
-                isSelected={selectedCategory === category}
-                onClick={() => setSelectedCategory(category)}
-              />
-            ))}
-          </S.RightWholeBtnContainer>
-          <S.StudentListContainer>
-            {StudentDetail.map((student) => (
-              <Status
-                key={student.studentId}
-                joinStatus={getJoinStatus(student.enterStatus)}
-                name={student.name}
-                roomNumber={student.roomId}
-                building={student.building}
-                date={student.enterTime}
-              />
-            ))}
-          </S.StudentListContainer>
+      <>
+        {isDesktop && 
+          <Desktop 
+            selectedFloor={selectedFloor}
+            setSelectedFloor={setSelectedFloor}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
+        }
 
-        </S.RightContainer>
-        <S.Line />
-        <S.LeftContainer>
-          {[
-            "전체",
-            "A동 기숙사 2층",
-            "A동 기숙사 3층",
-            "B동 기숙사 3층",
-            "B동 기숙사 4층",
-          ].map((floor) => (
-            <S.FloorBtn
-              key={floor}
-              onClick={() => setSelectedFloor(floor)}
-              style={{
-                color: selectedFloor === floor ? theme.blue : theme.gray200,
-              }}
-            >
-              {floor}
-            </S.FloorBtn>
-          ))}
-          <S.NoJoinBtn onClick={() => navigate("/not-admit")}>
-            미입소 등록
-          </S.NoJoinBtn>
-        </S.LeftContainer>
-      </S.MainContainer>
-    </S.Layout>
+        {isMobile && 
+          <Mobile 
+            selectedFloor={selectedFloor}
+            setSelectedFloor={setSelectedFloor}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
+        }
+      </>
   );
 };
 

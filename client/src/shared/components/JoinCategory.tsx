@@ -8,7 +8,7 @@ interface JoinCategoryProps {
 
 const Layout = styled.div<{ color: string }>`
   text-align: center;
-  width: 76px;
+  width: 68px;
   background-color: ${({ color }) => color};
   color: ${theme.white};
   ${Pretendard.Bnt3}

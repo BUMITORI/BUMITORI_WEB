@@ -16,6 +16,9 @@ const Button = styled.button<{ isSelected: boolean }>`
   cursor: pointer;
   border: none;
   border-bottom: ${({ isSelected }) => (isSelected ? `2px solid black` : "none")};
+  @media (max-width: 800px) {
+    padding: 12px 0px;
+  }
 `;
 
 const WholeBtn = ({ text, isSelected, onClick }: ButtonProps) => {

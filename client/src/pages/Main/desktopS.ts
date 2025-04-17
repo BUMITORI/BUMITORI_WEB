@@ -18,11 +18,19 @@ export const RightContainer = styled.div`
   flex-direction: column;
   padding-right: 32px;
 `;
+export const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+`;
+
 export const TextContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
 `;
+
 export const Title = styled.span`
   ${Pretendard.Title1}
   color: ${theme.black};
@@ -64,6 +72,8 @@ export const FloorBtn = styled.button`
   background-color: transparent;
   cursor: pointer;
   ${Pretendard.Bnt2}
+
+
 `;
 export const NoJoinBtn = styled.button`
   border: none;
@@ -73,4 +83,6 @@ export const NoJoinBtn = styled.button`
   color: ${theme.white};
   padding: 12px 22.5px;
   border-radius: 8px;
+
+
 `;

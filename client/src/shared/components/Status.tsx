@@ -13,9 +13,9 @@ interface StatusProps {
 
 const Layout = styled.main`
   display: flex;
-  width: fit-content;
+  width: 100%;
   align-items: center;
-  padding: 16px 321px 16px 20px;
+  padding: 16px;
   background-color: ${theme.gray50};
   border-radius: 16px;
   cursor: pointer;
@@ -29,9 +29,18 @@ const StudentInfo = styled.span`
   ${Pretendard.Bnt2}
 `;
 const DateShow = styled.span`
-  padding-left: 10px;
+  padding-left: 16px;
   ${Pretendard.caption}
   color: ${theme.gray200};
+`;
+const TextContainer = styled.div`
+  @media (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 4px;
+  }
 `;
 
 const Status = ({
@@ -45,11 +54,13 @@ const Status = ({
     <Layout>
       <StatusContainer>
         <JoinCategory isJoin={joinStatus} />
-        <StudentInfo>
-          {building}
-          {roomNumber}호 {name}
-        </StudentInfo>
-        <DateShow>{date}</DateShow>
+        <TextContainer>
+          <StudentInfo>
+            {building}
+            {roomNumber}호 {name}
+          </StudentInfo>
+          <DateShow>{date}</DateShow>
+        </TextContainer>
       </StatusContainer>
     </Layout>
   );
