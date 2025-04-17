@@ -44,6 +44,24 @@ export const FormContainer = styled.div`
   margin: 20px 0;
 `;
 
+
+export const DateChoice = styled.div`
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+`
+
+export const DateInput = styled.input`
+  ${Pretendard.Body2}
+  color: ${({ theme }) => theme.black};
+  font-weight: 500;
+  border: none;
+  backgorund-color: ${theme.gray400};
+  margin-bottom: 10px;
+`;
+
 export const ReasonChoice = styled.div`
   display: flex;
   flex-direction: column;

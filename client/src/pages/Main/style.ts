@@ -51,6 +51,7 @@ export const LeftContainer = styled.div`
   gap: 20px;
   align-items: center;
 `;
+
 export const WholeBtn = styled.button`
   border: none;
   background-color: transparent;

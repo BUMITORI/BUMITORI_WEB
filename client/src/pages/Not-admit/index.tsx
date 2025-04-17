@@ -7,6 +7,7 @@ const NotAdmit = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedButton, setSelectedButton] = useState<string>("");
   const [reasonText, setReasonText] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string>("2025-04-17");
 
   const handleButtonClick = (buttonName: string) => {
     setSelectedButton(buttonName);
@@ -14,6 +15,10 @@ const NotAdmit = () => {
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReasonText(e.target.value);
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(e.target.value);
   };
 
   const handleSubmit = () => {
@@ -33,6 +38,17 @@ const NotAdmit = () => {
           </S.TitleBox>
           <S.SubTitle>B306호 강민지</S.SubTitle>
           <S.FormContainer>
+            <S.DateChoice>
+              <S.ReasonText>미입소 날짜</S.ReasonText>
+              <S.DateInput 
+                type="date"
+                id="date"
+                max="2025-12-29"
+                min="2025-04-17"
+                value={selectedDate}
+                onChange={handleDateChange}
+              />
+            </S.DateChoice>
             <S.ReasonChoice>
               <S.ReasonText>사유선택</S.ReasonText>
               <S.ButtonBox>

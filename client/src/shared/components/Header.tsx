@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
 import SmallLogo from "../../assets/smallLogo.svg";
 import NoAlarmImg from "../../assets/noAlarm.svg";
 import AlarmImg from "../../assets/alarm.svg";
@@ -37,11 +39,13 @@ const Name = styled.span`
 `;
 
 const Header = ({ isAlarm }: HeaderProps) => {
+  const navigate = useNavigate();
+
   return (
     <Layout>
-      <Logo src={SmallLogo} />
+      <Logo src={SmallLogo} onClick={() => navigate("/")}/>
       <DetailContainer>
-        {isAlarm ? <Alarm src={AlarmImg} /> : <Alarm src={NoAlarmImg} />}
+        {isAlarm ? <Alarm src={AlarmImg} onClick={() => navigate("/alarm")}/> : <Alarm src={NoAlarmImg}  onClick={() => navigate("/alarm")}/>}
         <Profile src={ProfileImg} />
         <Name>강민지님</Name>
       </DetailContainer>

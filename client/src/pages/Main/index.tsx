@@ -104,6 +104,7 @@ const Main = () => {
               />
             ))}
           </S.StudentListContainer>
+
         </S.RightContainer>
         <S.Line />
         <S.LeftContainer>
@@ -124,7 +125,7 @@ const Main = () => {
               {floor}
             </S.FloorBtn>
           ))}
-          <S.NoJoinBtn onClick={() => navigate("/NotAdmit")}>
+          <S.NoJoinBtn onClick={() => navigate("/not-admit")}>
             미입소 등록
           </S.NoJoinBtn>
         </S.LeftContainer>
