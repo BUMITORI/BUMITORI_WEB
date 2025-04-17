@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { Pretendard } from "../../shared/style/font";
 import theme from "../../shared/style/theme";
 
+const BREAKPOINT = '768px';
+
 export const NotAdmitLayout = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,24 +12,43 @@ export const NotAdmitLayout = styled.div`
 export const NotAdmitContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 60px 300px;
+  padding: 60px 0px;
+  width: 740px;
+  margin: 0 auto;
+  @media (max-width: ${BREAKPOINT}) {
+    padding: 20px;
+    width: 100%;
+    margin: 0 auto;
+  }
 `;
 
 export const TitleBox = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+  flex-wrap: wrap;
+
+  @media (max-width: ${BREAKPOINT}) {
+    gap: 8px;
+  }
 `;
 
 export const Title = styled.p`
   ${Pretendard.Title1}
   color: ${theme.black};
+  @media (max-width: ${BREAKPOINT}) {
+    font-size: 1.5rem;
+  }
 `;
 
 export const Date = styled.p`
   ${Pretendard.Body3}
   color: ${theme.gray300};
   font-weight: 600;
+
+  @media (max-width: ${BREAKPOINT}) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const SubTitle = styled.p`
@@ -35,6 +56,10 @@ export const SubTitle = styled.p`
   color: ${theme.gray200};
   padding-top: 8px;
   font-weight: 600;
+
+  @media (max-width: ${BREAKPOINT}) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const FormContainer = styled.div`
@@ -42,30 +67,48 @@ export const FormContainer = styled.div`
   border: 1px solid ${theme.gray100};
   padding: 32px;
   margin: 20px 0;
+
+  @media (max-width: ${BREAKPOINT}) {
+    padding: 16px;
+  }
 `;
 
-
 export const DateChoice = styled.div`
-  flex-direction: row;
   display: flex;
   align-items: center;
   gap: 16px;
   margin-bottom: 32px;
-`
+
+  @media (max-width: ${BREAKPOINT}) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+`;
 
 export const DateInput = styled.input`
   ${Pretendard.Body2}
   color: ${({ theme }) => theme.black};
   font-weight: 500;
   border: none;
-  backgorund-color: ${theme.gray400};
-  margin-bottom: 10px;
+  background-color: ${theme.gray50};
+  padding: 8px;
+  border-radius: 4px;
+
+  @media (max-width: ${BREAKPOINT}) {
+    width: 100%;
+  }
 `;
 
 export const ReasonChoice = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 32px;
+
+  @media (max-width: ${BREAKPOINT}) {
+    margin-bottom: 16px;
+  }
 `;
 
 export const ReasonText = styled.p`
@@ -78,6 +121,12 @@ export const ReasonText = styled.p`
 export const ButtonBox = styled.div`
   display: flex;
   gap: 16px;
+
+  @media (max-width: ${BREAKPOINT}) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
 `;
 
 export const Button = styled.button<{ isSelected: boolean }>`
@@ -87,11 +136,16 @@ export const Button = styled.button<{ isSelected: boolean }>`
     isSelected ? theme.blue : theme.gray50};
   font-weight: 600;
   border-radius: 8px;
-  padding: 14px 70px;
+  padding: 14px 24px;
   white-space: nowrap;
   border: none;
-  width: 100%;
-  text-align: center;
+  cursor: pointer;
+
+  width: auto;
+  @media (max-width: ${BREAKPOINT}) {
+    width: 100%;
+    padding: 12px;
+  }
 `;
 
 export const ReasonExplain = styled.div`
@@ -116,6 +170,10 @@ export const ReasonTextArea = styled.textarea`
   &::placeholder {
     color: ${theme.gray200};
   }
+
+  @media (max-width: ${BREAKPOINT}) {
+    height: 150px;
+  }
 `;
 
 export const SubmitButton = styled.button<{ disabled: boolean }>`
@@ -124,9 +182,14 @@ export const SubmitButton = styled.button<{ disabled: boolean }>`
   background-color: ${({ disabled }) => (disabled ? theme.gray50 : theme.blue)};
   font-weight: 600;
   border-radius: 8px;
-  padding: 14px 70px;
+  padding: 14px 24px;
   white-space: nowrap;
   border: none;
-  width: 100%;
-  text-align: center;
+  width: auto;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+
+  @media (max-width: ${BREAKPOINT}) {
+    width: 100%;
+    padding: 12px;
+  }
 `;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import * as S from "./style";
+import * as S from "./mobileS";
 import Header from "../../shared/components/Header";
 import SubmitModal from "../../shared/components/Modal";
 
@@ -7,7 +7,7 @@ const NotAdmit = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedButton, setSelectedButton] = useState<string>("");
   const [reasonText, setReasonText] = useState<string>("");
-  const [selectedDate, setSelectedDate] = useState<string>("2025-04-17");
+  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().slice(0, 10));
 
   const handleButtonClick = (buttonName: string) => {
     setSelectedButton(buttonName);
@@ -44,7 +44,7 @@ const NotAdmit = () => {
                 type="date"
                 id="date"
                 max="2025-12-29"
-                min="2025-04-17"
+                min={new Date().toISOString().slice(0, 10)}
                 value={selectedDate}
                 onChange={handleDateChange}
               />
@@ -52,30 +52,15 @@ const NotAdmit = () => {
             <S.ReasonChoice>
               <S.ReasonText>사유선택</S.ReasonText>
               <S.ButtonBox>
-                <S.Button
-                  isSelected={selectedButton === "병결"}
-                  onClick={() => handleButtonClick("병결")}
-                >
-                  병결
-                </S.Button>
-                <S.Button
-                  isSelected={selectedButton === "체험활동"}
-                  onClick={() => handleButtonClick("체험활동")}
-                >
-                  체험활동
-                </S.Button>
-                <S.Button
-                  isSelected={selectedButton === "대회활동"}
-                  onClick={() => handleButtonClick("대회활동")}
-                >
-                  대회활동
-                </S.Button>
-                <S.Button
-                  isSelected={selectedButton === "기타"}
-                  onClick={() => handleButtonClick("기타")}
-                >
-                  기타
-                </S.Button>
+                {['병결','체험활동','대회활동','기타'].map(item => (
+                  <S.Button
+                    key={item}
+                    isSelected={selectedButton === item}
+                    onClick={() => handleButtonClick(item)}
+                  >
+                    {item}
+                  </S.Button>
+                ))}
               </S.ButtonBox>
             </S.ReasonChoice>
             <S.ReasonExplain>
@@ -98,7 +83,6 @@ const NotAdmit = () => {
           onSubmit={() => setIsModalOpen(false)}
         />
       )}
-      {/* 모달 닫기 */}
     </>
   );
 };
