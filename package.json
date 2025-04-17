@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@react-hook/media-query": "^1.1.1",
+    "react": "^19.1.0",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "^19.1.0",
+    "react-media": "^1.10.0",
+    "react-responsive": "^10.0.1"
+  }
+}
