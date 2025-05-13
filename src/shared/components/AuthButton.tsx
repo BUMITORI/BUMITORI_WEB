@@ -1,50 +1,47 @@
-import React, { useState } from 'react';
-import { GoogleLogin, googleLogout, CredentialResponse } from '@react-oauth/google';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
+import React from 'react';
 
-interface GoogleJwtPayload extends JwtPayload {
-  name: string;
-  email: string;
-  picture: string;
-}
+/**
+ * Google OAuth Login Button Component
+ *
+ * Uses environment variables:
+ * - VITE_GOOGLE_CLIENT_ID: Google OAuth client ID (from Vite)
+ * - REACT_APP_REDIRECT_URI: OAuth2 redirect URI (from CRA or process.env)
+ */
+const GoogleOAuthButton = () => {
+  // Retrieve the client ID and redirect URI from env
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const redirectUri = `${backendUrl}/oauth2/authorization/google`;
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  picture: string;
-}
+  const handleLogin = () => {
 
-export default function AuthButton() {
-  const [user, setUser] = useState<User | null>(null);
+    const authUrl = 
+      `${redirectUri}`
 
-  const handleLoginSuccess = (credentialResponse: CredentialResponse) => {
-    if (!credentialResponse.credential) return;
-    const decoded = jwtDecode<GoogleJwtPayload>(credentialResponse.credential);
-    setUser({
-      id: decoded.sub as string,
-      name: decoded.name,
-      email: decoded.email,
-      picture: decoded.picture,
-    });
-  };
-
-  const handleLogout = () => {
-    googleLogout();
-    setUser(null);
+    window.location.href = authUrl;
   };
 
   return (
-    <div>
-      {user ? (
-        <div>
-          <img src={user.picture} alt="프로필" width={32} height={32} />
-          <span>안녕하세요, {user.name}님!</span>
-          <button onClick={handleLogout}>로그아웃</button>
-        </div>
-      ) : (
-        <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.log('로그인 에러')} />
-      )}
-    </div>
+    <button
+      onClick={handleLogin}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        padding: '0.5rem 1rem',
+        border: '1px solid #ddd',
+        borderRadius: '4px',
+        backgroundColor: '#fff',
+        cursor: 'pointer',
+        fontSize: '1rem'
+      }}
+    >
+      <img
+        src="https://developers.google.com/identity/images/g-logo.png"
+        alt="Google logo"
+        style={{ width: '20px', height: '20px', marginRight: '0.5rem' }}
+      />
+      Sign in with Google
+    </button>
   );
-}
+};
+
+export default GoogleOAuthButton;

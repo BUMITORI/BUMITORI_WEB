@@ -1,12 +1,12 @@
-export const getJoinStatus = (enterStatus: number) => {
+export const getJoinStatus = (enterStatus: string) => {
     switch (enterStatus) {
-        case 1:
+        case "ENTER":
             return "입소 완료";
-        case 2:
+        case "PRE_ENTER":
             return "입소전";
-        case 3:
+        case "NON_ENTER":
             return "미입소";
         default:
-            return "";
+            return "알수없음";
     }
 };

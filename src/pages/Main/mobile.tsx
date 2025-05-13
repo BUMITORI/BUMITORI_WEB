@@ -1,4 +1,4 @@
-import * as M from "./mobileS";
+import * as M from "./mobile.style";
 // import { useNavigate } from "react-router-dom";
 import Header from "../../shared/components/Header";
 import Status from "../../shared/components/Status";
@@ -12,57 +12,32 @@ type Props = {
     setSelectedFloor: any;
     selectedCategory: any;
     setSelectedCategory: any;
-  };
+    studentList: any[];
+    isError: boolean;
+};
 
-export const Mobile = ({selectedFloor, setSelectedFloor, selectedCategory, setSelectedCategory}: Props) => {
+export const Mobile = ({selectedFloor, setSelectedFloor, selectedCategory, setSelectedCategory, studentList, isError}: Props) => {
   const navigate = useNavigate();
-  const StudentDetail = [
-    {
-      studentId: 1,
-      name: "강민지",
-      roomId: 304,
-      building: "A",
-      gender: "여",
-      enterStatus: 2,
-      enterTime: "3월 12일 (일) 6:40:55",
-    },
-    {
-      studentId: 2,
-      name: "김시연",
-      roomId: 304,
-      building: "A",
-      gender: "여",
-      enterStatus: 3,
-      enterTime: "3월 12일 (일) 6:40:55",
-    },
-    {
-      studentId: 3,
-      name: "정소울",
-      roomId: 405,
-      building: "A",
-      gender: "남",
-      enterStatus: 2,
-      enterTime: "3월 12일 (일) 6:40:55",
-    },
-    {
-      studentId: 4,
-      name: "조윤소",
-      roomId: 205,
-      building: "B",
-      gender: "여",
-      enterStatus: 1,
-      enterTime: "3월 12일 (일) 6:40:55",
-    },
-    {
-      studentId: 5,
-      name: "강민지",
-      roomId: 305,
-      building: "B",
-      gender: "남",
-      enterStatus: 1,
-      enterTime: "3월 12일 (일) 6:40:55",
-    },
-  ];
+
+  // Filtering logic
+  // Category filtering
+  const categoryFiltered = studentList.filter((student) => {
+    if (selectedCategory === "전체") return true;
+    if (selectedCategory === "남학생") return student.gender === "M" || student.gender === "남";
+    if (selectedCategory === "여학생") return student.gender === "W" || student.gender === "여";
+    if (selectedCategory === "미입소자") return student.enterStatus === "NON_ENTER";
+    return true;
+  });
+  
+  // Floor filtering
+  const filteredList = categoryFiltered.filter((student) => {
+    if (selectedFloor === "전체") return true;
+    if (selectedFloor === "A동 2층") return student.roomPrefix === "A" && String(student.roomNumber).startsWith("2");
+    if (selectedFloor === "A동 3층") return student.roomPrefix === "A" && String(student.roomNumber).startsWith("3");
+    if (selectedFloor === "B동 3층") return student.roomPrefix === "B" && String(student.roomNumber).startsWith("3");
+    if (selectedFloor === "B동 4층") return student.roomPrefix === "B" && String(student.roomNumber).startsWith("4");
+    return true;
+  });
 
   return (
     <M.Layout>
@@ -74,8 +49,7 @@ export const Mobile = ({selectedFloor, setSelectedFloor, selectedCategory, setSe
               <M.Title>출석리스트</M.Title>
               <M.Date>2025년 3월 첫째주</M.Date>
             </M.TextContainer>
-            <Dropdown/>
-
+            <Dropdown selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor} />
           </M.TitleContainer>
           <M.RightWholeBtnContainer>
             {["전체", "남학생", "여학생", "미입소자"].map((category) => (
@@ -88,16 +62,19 @@ export const Mobile = ({selectedFloor, setSelectedFloor, selectedCategory, setSe
             ))}
           </M.RightWholeBtnContainer>
           <M.StudentListContainer>
-            {StudentDetail.map((student) => (
-              <Status
-                key={student.studentId}
-                joinStatus={getJoinStatus(student.enterStatus)}
-                name={student.name}
-                roomNumber={student.roomId}
-                building={student.building}
-                date={student.enterTime}
-              />
-            ))}
+            {isError ? (
+              <div>로그인이 필요합니다</div>
+            ) : (
+              filteredList.map((student, idx) => (
+                <Status
+                  key={idx}
+                  joinStatus={getJoinStatus(student.enterStatus)}
+                  name={student.name}
+                  roomNumber={String(student.roomNumber)}
+                  date={student.enterTime ? new Date(student.enterTime).toLocaleString() : ""}
+                />
+              ))
+            )}
           </M.StudentListContainer>
           <M.NoJoinBtn onClick={() => navigate("/not-admit")}>미입소 신청</M.NoJoinBtn>
         </M.RightContainer>

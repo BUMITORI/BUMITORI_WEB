@@ -5,8 +5,7 @@ import { Pretendard } from "../style/font";
 
 interface StatusProps {
   joinStatus: string;
-  roomNumber: number;
-  building: string;
+  roomNumber: string;
   name: string;
   date: string;
 }
@@ -46,7 +45,6 @@ const TextContainer = styled.div`
 const Status = ({
   joinStatus,
   roomNumber,
-  building,
   name,
   date,
 }: StatusProps) => {
@@ -56,7 +54,6 @@ const Status = ({
         <JoinCategory isJoin={joinStatus} />
         <TextContainer>
           <StudentInfo>
-            {building}
             {roomNumber}호 {name}
           </StudentInfo>
           <DateShow>{date}</DateShow>
