@@ -33,7 +33,7 @@ const DateShow = styled.span`
   color: ${theme.gray200};
 `;
 const TextContainer = styled.div`
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     display: flex;
     flex-direction: column;
     align-items: flex-start;

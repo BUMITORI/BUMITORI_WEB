@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Pretendard } from "../../shared/style/font";
 import theme from "../../shared/style/theme";
 
-const BREAKPOINT = '768px';
+const BREAKPOINT = '900px';
 
 export const NotAdmitLayout = styled.div`
   display: flex;

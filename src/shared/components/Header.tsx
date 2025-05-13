@@ -19,14 +19,14 @@ const Layout = styled.header`
   padding: 16px 200px;
   border-bottom: 1px solid ${theme.gray100};
 
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     padding: 12px 30px;
     text-align: left;
   }
 `;
 const Logo = styled.img`
   cursor: pointer;
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     width: 64px;
   }
 `;
@@ -40,7 +40,7 @@ const Alarm = styled.img`
 `;
 const Profile = styled.img`
   cursor: pointer;
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     width: 32px;
   }
 `;

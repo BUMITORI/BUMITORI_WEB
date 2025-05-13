@@ -9,14 +9,14 @@ interface ButtonProps {
 }
 
 const Button = styled.button<{ isSelected: boolean }>`
-  padding: 16px 44px;
+  padding: 16px 64px;
   ${Pretendard.Bnt2}
   background-color: white;
   color: ${({ isSelected }) => (isSelected ? theme.black : theme.gray200)};
   cursor: pointer;
   border: none;
   border-bottom: ${({ isSelected }) => (isSelected ? `2px solid black` : "none")};
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     padding: 12px 0px;
   }
 `;
