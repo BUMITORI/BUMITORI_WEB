@@ -93,7 +93,7 @@ const NotAdmit = () => {
               }
 
               await axios.post( 
-                "http://bumitori.duckdns.org:8080/absent/request",
+                "https://bumitori.duckdns.org:8080/absent/request",
                 {
                   reason: selectedButton === "병결" ? "SICK_LEAVE"
                         : selectedButton === "체험활동" ? "EXPERIENCE"

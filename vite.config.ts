@@ -6,15 +6,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://bumitori.duckdns.org:8080',
-        changeOrigin: true,
-        secure: false,
-        rewrite: path => path.replace(/^\/api/, '')
+        target: 'https://bumitori.duckdns.org:8080'
       }
-    },
-    allowedHosts: [
-      'bumitori-web.onrender.com',
-      'bumitori.kro.kr'
-    ],
+    }
   }
 })

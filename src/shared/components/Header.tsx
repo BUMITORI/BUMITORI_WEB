@@ -100,7 +100,7 @@ const Header = ({ isAlarm }: HeaderProps) => {
     if (!token) return;
 
     try {
-      const response = await axios.get('http://bumitori.duckdns.org:8080/me', {
+      const response = await axios.get('https://bumitori.duckdns.org:8080/me', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
