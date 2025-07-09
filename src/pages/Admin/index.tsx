@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import theme from '../../shared/style/theme';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import React from 'react';
-import { useFetcher } from 'react-router-dom';
 
 const Layout = styled.main`
   display: flex;
