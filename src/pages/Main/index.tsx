@@ -53,8 +53,8 @@ const Main = () => {
     fetchList();
   }, []);
 
-  const isDesktop = useMedia({ minWidth: 800 })
-  const isMobile = useMedia({ maxWidth: 800 })
+  const isDesktop = useMedia({ minWidth: 900 })
+  const isMobile = useMedia({ maxWidth: 900 })
 
   return (
       <>

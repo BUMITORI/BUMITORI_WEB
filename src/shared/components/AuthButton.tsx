@@ -29,7 +29,7 @@ const GoogleOAuthButton = () => {
         alt="Google logo"
         style={{ width: '20px', height: '20px', marginRight: '0.5rem' }}
       />
-      Sign in with Google
+      Google Login
     </button>
   );
 };
