@@ -11,6 +11,10 @@ export default defineConfig({
         secure: false,
         rewrite: path => path.replace(/^\/api/, '')
       }
-    }
+    },
+    allowedHosts: [
+      'bumitori-web.onrender.com',
+      'bumitori.kro.kr'
+    ],
   }
 })
