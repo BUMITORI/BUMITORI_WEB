@@ -28,7 +28,7 @@ const Main = () => {
         console.log("Making API request to:", "/api");
         console.log("Cookies before request:", document.cookie);
         
-        const { data } = await axios.get("https://bumitori.duckdns.org:8080/", {
+        const { data } = await axios.get("https://bumitori.duckdns.org/", {
           withCredentials: true
         });
         

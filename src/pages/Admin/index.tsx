@@ -157,7 +157,7 @@ const AdminMain = () => {
       return;
     }
     try {
-      const res = await axios.get('https://bumitori.duckdns.org:8080/admin/absent', {
+      const res = await axios.get('https://bumitori.duckdns.org/admin/absent', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -208,7 +208,7 @@ const AdminMain = () => {
     }
     setLoading(true);
     try {
-      await axios.patch(`https://bumitori.duckdns.org:8080/admin/absent/${absentId}`, {}, {
+      await axios.patch(`https://bumitori.duckdns.org/admin/absent/${absentId}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

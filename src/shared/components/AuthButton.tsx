@@ -1,6 +1,6 @@
 const GoogleOAuthButton = () => {
   // Retrieve the client ID and redirect URI from env
-  const redirectUri = `https://bumitori.duckdns.org:8080/oauth2/authorization/google`;
+  const redirectUri = `https://bumitori.duckdns.org/oauth2/authorization/google`;
 
   const handleLogin = () => {
 

@@ -50,12 +50,12 @@ export const useAuth = () => {
     try {
       // 여러 로그아웃 엔드포인트 시도
       try {
-        await axios.post('https://bumitori.duckdns.org:8080/logout', {}, {
+        await axios.post('https://bumitori.duckdns.org/logout', {}, {
           withCredentials: true
         });
       } catch (error) {
         try {
-          await axios.post('https://bumitori.duckdns.org:8080/api/auth/logout', {}, {
+          await axios.post('https://bumitori.duckdns.org/api/auth/logout', {}, {
             withCredentials: true
           });
         } catch (error2) {

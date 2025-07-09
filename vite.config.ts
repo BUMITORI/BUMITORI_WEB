@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://bumitori.duckdns.org:8080'
+        target: 'https://bumitori.duckdns.org'
       }
     }
   }
