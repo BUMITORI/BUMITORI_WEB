@@ -4,10 +4,7 @@ import Header from "../../shared/components/Header";
 import WholeBtn from "../../shared/components/WholeBtn";
 import Status from "../../shared/components/Status";
 import theme from "../../shared/style/theme";
-import Dropdown from "../../shared/components/Dropdown";
 import { getJoinStatus } from "../../hooks/getJoinStatus";
-import { useState, useEffect } from "react";
-import axios from "axios";
 
 // API에서 받을 데이터 형태
 interface StudentFromApi {
@@ -19,11 +16,21 @@ interface StudentFromApi {
   enterTime: string | null; // can be null
 }
 
-export const Desktop = ({ selectedFloor, setSelectedFloor, selectedCategory, setSelectedCategory, studentList, isError }: Props) => {
+export const Desktop = ({ selectedFloor, setSelectedFloor, selectedCategory, setSelectedCategory, studentList, isError, isLoading }: Props) => {
   const navigate = useNavigate();
 
+  // localStorage에서 role 가져오기
+  const role = localStorage.getItem('role');
+
+  // studentList가 배열인지 확인하고 안전하게 처리
+  const safeStudentList = Array.isArray(studentList) ? studentList : [];
+  
+  console.log("Safe student list:", safeStudentList);
+  console.log("Selected category:", selectedCategory);
+  console.log("Selected floor:", selectedFloor);
+
   // Category filtering
-  const categoryFiltered = studentList.filter((student) => {
+  const categoryFiltered = safeStudentList.filter((student) => {
     if (selectedCategory === "전체") return true;
     if (selectedCategory === "남학생") return student.gender === "M" || student.gender === "남";
     if (selectedCategory === "여학생") return student.gender === "W" || student.gender === "여";
@@ -65,7 +72,11 @@ export const Desktop = ({ selectedFloor, setSelectedFloor, selectedCategory, set
           </D.RightWholeBtnContainer>
 
           <D.StudentListContainer>
-            {isError ? (
+            {isLoading ? (
+              <D.ErrorMessage>
+                데이터를 불러오는 중...
+              </D.ErrorMessage>
+            ) : isError ? (
               <D.ErrorMessage>
                 로그인이 필요합니다
               </D.ErrorMessage>
@@ -95,7 +106,19 @@ export const Desktop = ({ selectedFloor, setSelectedFloor, selectedCategory, set
               {floor}
             </D.FloorBtn>
           ))}
-          <D.NoJoinBtn onClick={() => navigate("/not-admit")}>미입소 등록</D.NoJoinBtn>
+          {role && (
+            <D.NoJoinBtn 
+              onClick={() => {
+                if (role === 'ADMIN') {
+                  navigate("/admin-main");
+                } else {
+                  navigate("/not-admit");
+                }
+              }}
+            >
+              {role === 'ADMIN' ? '미입소 확인' : '미입소 등록'}
+            </D.NoJoinBtn>
+          )}
         </D.LeftContainer>
       </D.MainContainer>
     </D.Layout>
@@ -109,4 +132,5 @@ interface Props {
   setSelectedCategory: (category: string) => void;
   studentList: StudentFromApi[];
   isError: boolean;
+  isLoading: boolean;
 }

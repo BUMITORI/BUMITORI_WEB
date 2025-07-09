@@ -2,8 +2,11 @@ import { useState } from "react";
 import * as S from "./mobileS";
 import Header from "../../shared/components/Header";
 import SubmitModal from "../../shared/components/Modal";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const NotAdmit = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedButton, setSelectedButton] = useState<string>("");
   const [reasonText, setReasonText] = useState<string>("");
@@ -79,7 +82,37 @@ const NotAdmit = () => {
       {isModalOpen && (
         <SubmitModal
           onClose={() => setIsModalOpen(false)}
-          onSubmit={() => setIsModalOpen(false)}
+          onSubmit={async () => {
+            setIsModalOpen(false);
+
+            try {
+              const token = localStorage.getItem('token');
+              if (!token) {
+                alert("로그인이 필요합니다.");
+                return;
+              }
+
+              await axios.post( 
+                "http://bumitori.duckdns.org:8080/absent/request",
+                {
+                  reason: selectedButton === "병결" ? "SICK_LEAVE"
+                        : selectedButton === "체험활동" ? "EXPERIENCE"
+                        : selectedButton === "대회활동" ? "CONTEST"
+                        : "ETC",
+                  specificReason: reasonText,
+                  absentDate: selectedDate,
+                },
+                {
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                }
+              );
+              navigate("/");
+            } catch (e) {
+              alert("제출에 실패했습니다.");
+            }
+          }}
         />
       )}
     </>

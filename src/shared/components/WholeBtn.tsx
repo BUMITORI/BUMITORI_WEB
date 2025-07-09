@@ -8,14 +8,14 @@ interface ButtonProps {
   onClick: () => void;
 }
 
-const Button = styled.button<{ isSelected: boolean }>`
+const Button = styled.button<{ $isSelected: boolean }>`
   padding: 16px 64px;
   ${Pretendard.Bnt2}
   background-color: white;
-  color: ${({ isSelected }) => (isSelected ? theme.black : theme.gray200)};
+  color: ${({ $isSelected }) => ($isSelected ? theme.black : theme.gray200)};
   cursor: pointer;
   border: none;
-  border-bottom: ${({ isSelected }) => (isSelected ? `2px solid black` : "none")};
+  border-bottom: ${({ $isSelected }) => ($isSelected ? `2px solid black` : "none")};
   @media (max-width: 900px) {
     padding: 12px 0px;
   }
@@ -23,7 +23,7 @@ const Button = styled.button<{ isSelected: boolean }>`
 
 const WholeBtn = ({ text, isSelected, onClick }: ButtonProps) => {
   return (
-    <Button onClick={onClick} isSelected={isSelected}>
+    <Button onClick={onClick} $isSelected={isSelected}>
       {text}
     </Button>
   );

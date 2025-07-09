@@ -1,16 +1,6 @@
-import React from 'react';
-
-/**
- * Google OAuth Login Button Component
- *
- * Uses environment variables:
- * - VITE_GOOGLE_CLIENT_ID: Google OAuth client ID (from Vite)
- * - REACT_APP_REDIRECT_URI: OAuth2 redirect URI (from CRA or process.env)
- */
 const GoogleOAuthButton = () => {
   // Retrieve the client ID and redirect URI from env
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  const redirectUri = `${backendUrl}/oauth2/authorization/google`;
+  const redirectUri = `http://bumitori.duckdns.org:8080/oauth2/authorization/google`;
 
   const handleLogin = () => {
 

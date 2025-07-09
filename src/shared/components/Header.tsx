@@ -51,6 +51,7 @@ const Name = styled.span`
 
 const Header = ({ isAlarm }: HeaderProps) => {
   const navigate = useNavigate();
+  const hasToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
 
   return (
     <Layout>
@@ -59,7 +60,7 @@ const Header = ({ isAlarm }: HeaderProps) => {
         {isAlarm ? <Alarm src={AlarmImg} onClick={() => navigate("/alarm")}/> : <Alarm src={NoAlarmImg}  onClick={() => navigate("/alarm")}/>}
         {/* <Profile src={ProfileImg} />
         <Name>강민지님</Name> */}
-        <AuthButton />
+        {!hasToken && <AuthButton />}
       </DetailContainer>
     </Layout>
   );

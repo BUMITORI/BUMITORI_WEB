@@ -14,14 +14,20 @@ type Props = {
     setSelectedCategory: any;
     studentList: any[];
     isError: boolean;
+    isLoading: boolean;
 };
 
-export const Mobile = ({selectedFloor, setSelectedFloor, selectedCategory, setSelectedCategory, studentList, isError}: Props) => {
+export const Mobile = ({selectedFloor, setSelectedFloor, selectedCategory, setSelectedCategory, studentList, isError, isLoading}: Props) => {
   const navigate = useNavigate();
+
+  // studentList가 배열인지 확인하고 안전하게 처리
+  const safeStudentList = Array.isArray(studentList) ? studentList : [];
+
+  const role = localStorage.getItem('role');
 
   // Filtering logic
   // Category filtering
-  const categoryFiltered = studentList.filter((student) => {
+  const categoryFiltered = safeStudentList.filter((student) => {
     if (selectedCategory === "전체") return true;
     if (selectedCategory === "남학생") return student.gender === "M" || student.gender === "남";
     if (selectedCategory === "여학생") return student.gender === "W" || student.gender === "여";
@@ -62,7 +68,9 @@ export const Mobile = ({selectedFloor, setSelectedFloor, selectedCategory, setSe
             ))}
           </M.RightWholeBtnContainer>
           <M.StudentListContainer>
-            {isError ? (
+            {isLoading ? (
+              <div>데이터를 불러오는 중...</div>
+            ) : isError ? (
               <div>로그인이 필요합니다</div>
             ) : (
               filteredList.map((student, idx) => (
@@ -76,7 +84,19 @@ export const Mobile = ({selectedFloor, setSelectedFloor, selectedCategory, setSe
               ))
             )}
           </M.StudentListContainer>
-          <M.NoJoinBtn onClick={() => navigate("/not-admit")}>미입소 신청</M.NoJoinBtn>
+          {role && (
+            <M.NoJoinBtn 
+              onClick={() => {
+                if (role === 'ADMIN') {
+                  navigate("/admin-main");
+                } else {
+                  navigate("/not-admit");
+                }
+              }}
+            >
+              {role === 'ADMIN' ? '미입소 확인' : '미입소 등록'}
+            </M.NoJoinBtn>
+          )}
         </M.RightContainer>
       </M.MainContainer>
     </M.Layout>
