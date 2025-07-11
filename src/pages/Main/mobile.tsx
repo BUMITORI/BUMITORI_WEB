@@ -17,6 +17,36 @@ type Props = {
     isLoading: boolean;
 };
 
+// 현재 주차를 계산하는 함수
+const getCurrentWeekOfMonth = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1; // 0부터 시작하므로 +1
+  
+  // 해당 월의 첫 번째 날
+  const firstDay = new Date(year, now.getMonth(), 1);
+  // 현재 날짜
+  const today = new Date(year, now.getMonth(), now.getDate());
+  
+  // 첫 번째 날의 요일 (0: 일요일, 1: 월요일, ...)
+  const firstDayOfWeek = firstDay.getDay();
+  
+  // 첫 번째 주의 시작일 (첫 번째 월요일)
+  const firstMonday = new Date(firstDay);
+  firstMonday.setDate(1 + (firstDayOfWeek === 0 ? 1 : 8 - firstDayOfWeek));
+  
+  // 오늘까지의 일수
+  const daysDiff = Math.floor((today.getTime() - firstMonday.getTime()) / (1000 * 60 * 60 * 24));
+  
+  // 주차 계산 (1주차부터 시작)
+  const weekNumber = Math.floor(daysDiff / 7) + 1;
+  
+  const weekNames = ["첫째", "둘째", "셋째", "넷째", "다섯째"];
+  const weekName = weekNames[weekNumber - 1] || "다섯째";
+  
+  return `${year}년 ${month}월 ${weekName}주`;
+};
+
 export const Mobile = ({selectedFloor, setSelectedFloor, selectedCategory, setSelectedCategory, studentList, isError, isLoading}: Props) => {
   const navigate = useNavigate();
 
@@ -53,7 +83,7 @@ export const Mobile = ({selectedFloor, setSelectedFloor, selectedCategory, setSe
           <M.TitleContainer>
             <M.TextContainer>
               <M.Title>출석리스트</M.Title>
-              <M.Date>2025년 3월 첫째주</M.Date>
+              <M.Date>{getCurrentWeekOfMonth()}</M.Date>
             </M.TextContainer>
             <Dropdown selectedFloor={selectedFloor} setSelectedFloor={setSelectedFloor} />
           </M.TitleContainer>

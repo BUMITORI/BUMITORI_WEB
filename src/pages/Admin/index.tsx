@@ -2,6 +2,7 @@ import Header from '../../shared/components/Header';
 import styled from 'styled-components';
 import theme from '../../shared/style/theme';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Layout = styled.main`
@@ -96,45 +97,7 @@ const ErrorMsg = styled.div`
   margin-top: 60px;
 `;
 
-// 모달 컴포넌트
-const ModalBg = styled.div`
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-`;
-const ModalBox = styled.div`
-  background: #fff;
-  border-radius: 12px;
-  padding: 32px 24px 24px 24px;
-  min-width: 260px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const ModalBtnRow = styled.div`
-  display: flex;
-  gap: 16px;
-  margin-top: 24px;
-`;
-const ModalBtn = styled.button`
-  padding: 8px 20px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  background: ${theme.blue};
-  color: #fff;
-  &:last-child {
-    background: ${theme.gray200};
-    color: #222;
-  }
-`;
+
 
 interface AbsentItem {
   id: number;
@@ -145,10 +108,11 @@ interface AbsentItem {
 }
 
 const AdminMain = () => {
+  const navigate = useNavigate();
   const [absentList, setAbsentList] = useState<AbsentItem[]>([]);
   const [error, setError] = useState('');
-  const [modalId, setModalId] = useState<number|null>(null);
-  const [loading, setLoading] = useState(false);
+
+
 
   const fetchAbsentList = async () => {
     const token = localStorage.getItem('token');
@@ -199,28 +163,7 @@ const AdminMain = () => {
     console.log(grouped)
   }, [grouped])
 
-  // 승인 처리 함수
-  const handleApprove = async (absentId: number) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
-    setLoading(true);
-    try {
-      await axios.patch(`https://bumitori.duckdns.org/admin/absent/${absentId}`, {}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setModalId(null);
-      await fetchAbsentList();
-    } catch (e) {
-      alert('승인 처리에 실패했습니다.');
-    } finally {
-      setLoading(false);
-    }
-  };
+
 
   return (
     <Layout>
@@ -243,7 +186,7 @@ const AdminMain = () => {
                       <Room>{item.name}</Room>
                     </InfoBox>
                     {item.status === '승인 전' ? (
-                      <StatusBtn status={item.status} style={{cursor:'pointer'}} onClick={() => setModalId(item.id)}>
+                      <StatusBtn status={item.status} style={{cursor:'pointer'}} onClick={() => navigate(`/not-admit-admin/${item.id}`)}>
                         {item.status}
                       </StatusBtn>
                     ) : (
@@ -256,17 +199,7 @@ const AdminMain = () => {
           )
         )}
       </Container>
-      {modalId !== null && (
-        <ModalBg>
-          <ModalBox>
-            <div style={{fontSize:'18px', fontWeight:600, marginBottom:12}}>승인 하시겠습니까?</div>
-            <ModalBtnRow>
-              <ModalBtn onClick={() => handleApprove(modalId)} disabled={loading}>확인</ModalBtn>
-              <ModalBtn onClick={() => setModalId(null)} disabled={loading}>취소</ModalBtn>
-            </ModalBtnRow>
-          </ModalBox>
-        </ModalBg>
-      )}
+
     </Layout>
   );
 };
