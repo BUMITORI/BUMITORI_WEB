@@ -7,27 +7,60 @@ import { getToken, ensureArray } from '../utils';
 const api = axios.create({
   timeout: 10000,
   withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
-// Request interceptor to add auth token
+// Request interceptor to add auth token and log requests
 api.interceptors.request.use(
   (config) => {
     const token = getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    // Log request details for debugging
+    console.log('🚀 API Request:', {
+      method: config.method?.toUpperCase(),
+      url: config.url,
+      data: config.data,
+      headers: {
+        'Content-Type': config.headers['Content-Type'],
+        'Authorization': config.headers.Authorization ? '***Bearer Token***' : 'None'
+      }
+    });
+    
     return config;
   },
   (error) => {
+    console.error('❌ Request Error:', error);
     return Promise.reject(error);
   }
 );
 
 // Response interceptor for global error handling
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Log successful responses
+    console.log('✅ API Response:', {
+      status: response.status,
+      url: response.config.url,
+      data: response.data
+    });
+    return response;
+  },
   (error) => {
-    console.error('API Error:', error);
+    // Enhanced error logging
+    console.error('❌ API Error Details:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      url: error.config?.url,
+      method: error.config?.method?.toUpperCase(),
+      requestData: error.config?.data,
+      responseData: error.response?.data,
+      message: error.message
+    });
     
     // Handle specific error cases
     if (error.response?.status === 401) {
@@ -94,13 +127,35 @@ export const absentApi = {
   },
 
   /**
-   * Submit absent request
+   * Submit absent request with enhanced validation
    */
   submitAbsentRequest: async (requestData: AbsentRequest): Promise<void> => {
     try {
-      await api.post(API_ENDPOINTS.ABSENT_REQUEST, requestData);
+      // Validate request data before sending
+      if (!requestData.reason) {
+        throw new Error('Reason is required');
+      }
+      if (!requestData.specificReason?.trim()) {
+        throw new Error('Specific reason is required');
+      }
+      if (!requestData.absentDate) {
+        throw new Error('Absent date is required');
+      }
+
+      // Ensure clean data format
+      const cleanedData = {
+        reason: requestData.reason,
+        specificReason: requestData.specificReason.trim(),
+        absentDate: requestData.absentDate,
+      };
+
+      console.log('📤 Submitting absent request:', cleanedData);
+      
+      await api.post(API_ENDPOINTS.ABSENT_REQUEST, cleanedData);
+      
+      console.log('✅ Absent request submitted successfully');
     } catch (error) {
-      console.error('Failed to submit absent request:', error);
+      console.error('❌ Failed to submit absent request:', error);
       throw error;
     }
   },

@@ -190,3 +190,28 @@ export const SubmitButton = styled.button<{ disabled: boolean }>`
     padding: 12px;
   }
 `;
+
+export const ErrorMessage = styled.div`
+  ${Pretendard.Body2}
+  color: ${theme.red};
+  background-color: #FFF5F5;
+  border: 1px solid ${theme.red};
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  &:before {
+    content: "⚠️";
+  }
+`;
+
+export const CharCount = styled.div`
+  ${Pretendard.Body3}
+  color: ${theme.gray300};
+  text-align: right;
+  margin-top: 8px;
+  font-size: 0.75rem;
+`;
