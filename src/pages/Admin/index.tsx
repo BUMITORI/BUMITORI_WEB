@@ -1,9 +1,8 @@
 import Header from '../../shared/components/Header';
 import styled from 'styled-components';
 import theme from '../../shared/style/theme';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useAbsentList } from '../../shared/hooks/useAbsentList';
 
 const Layout = styled.main`
   display: flex;
@@ -88,6 +87,12 @@ const StatusBtn = styled.div<{ status: '승인 전' | '승인 완료' }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: ${({ status }) => status === '승인 전' ? 'pointer' : 'default'};
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: ${({ status }) => status === '승인 전' ? 0.9 : 1};
+  }
 `;
 
 const ErrorMsg = styled.div`
@@ -97,109 +102,71 @@ const ErrorMsg = styled.div`
   margin-top: 60px;
 `;
 
+const LoadingMsg = styled.div`
+  color: ${theme.gray300};
+  font-size: 18px;
+  text-align: center;
+  margin-top: 60px;
+`;
 
-
-interface AbsentItem {
-  id: number;
-  name: string;
-  room: string;
-  date: string;
-  status: '승인 전' | '승인 완료';
-}
+const EmptyMsg = styled.div`
+  color: ${theme.gray300};
+  font-size: 18px;
+  text-align: center;
+  margin-top: 60px;
+`;
 
 const AdminMain = () => {
   const navigate = useNavigate();
-  const [absentList, setAbsentList] = useState<AbsentItem[]>([]);
-  const [error, setError] = useState('');
+  const { groupedAbsentList, isLoading, isError, error } = useAbsentList();
 
-
-
-  const fetchAbsentList = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setError('로그인이 필요합니다.');
-      return;
-    }
-    try {
-      const res = await axios.get('https://bumitori.duckdns.org/admin/absent', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = Array.isArray(res.data) ? res.data : [];
-      const mapped = data.map((item: any) => ({
-        id: item.absentId,
-        name: item.name || `${item.room} ${item.studentName}` || '이름없음',
-        room: item.room || '-',
-        date: item.absentDate || '-',
-        status: item.approval === true ? '승인 완료' : '승인 전' as '승인 전' | '승인 완료',
-      }));
-      setAbsentList(mapped);
-      console.log(mapped)
-    } catch (e) {
-      setError('데이터를 불러오지 못했습니다.');
+  const handleStatusClick = (item: any) => {
+    if (item.status === '승인 전') {
+      navigate(`/not-admit-admin/${item.id}`);
     }
   };
 
-  let grouped = absentList.reduce((acc, cur) => {
-    if (!acc[cur.date]) acc[cur.date] = [];
-    acc[cur.date].push(cur);
-    return acc;
-  }, {} as Record<string, AbsentItem[]>);
+  const renderContent = () => {
+    if (isLoading) {
+      return <LoadingMsg>데이터를 불러오는 중...</LoadingMsg>;
+    }
 
-  useEffect(() => {
-    fetchAbsentList();
-    grouped = absentList.reduce((acc, cur) => {
-      if (!acc[cur.date]) acc[cur.date] = [];
-      acc[cur.date].push(cur);
-      return acc;
-    }, {} as Record<string, AbsentItem[]>);
-  }, []);
+    if (isError) {
+      return <ErrorMsg>{error || '데이터를 불러오지 못했습니다.'}</ErrorMsg>;
+    }
 
-  // 날짜별 그룹핑
+    if (Object.keys(groupedAbsentList).length === 0) {
+      return <EmptyMsg>신청 내역이 없습니다.</EmptyMsg>;
+    }
 
-
-  useEffect(() => {
-    console.log(grouped)
-  }, [grouped])
-
-
+    return Object.entries(groupedAbsentList).map(([date, list]) => (
+      <div key={date}>
+        <DateTitle>{date}</DateTitle>
+        {list.map((item) => (
+          <Card key={item.id}>
+            <InfoBox>
+              <Label>🚨 미입소 신고</Label>
+              <Room>{item.name}</Room>
+            </InfoBox>
+            <StatusBtn 
+              status={item.status}
+              onClick={() => handleStatusClick(item)}
+            >
+              {item.status}
+            </StatusBtn>
+          </Card>
+        ))}
+      </div>
+    ));
+  };
 
   return (
     <Layout>
       <Header />
       <Container>
         <Title>미입소 신고 확인</Title>
-        {error ? (
-          <ErrorMsg>{error}</ErrorMsg>
-        ) : (
-          Object.keys(grouped).length === 0 ? (
-            <div>신청 내역이 없습니다.</div>
-          ) : (
-            Object.entries(grouped).map(([date, list]) => (
-              <div key={date}>
-                <DateTitle>{date}</DateTitle>
-                {list.map((item) => (
-                  <Card key={item.id}>
-                    <InfoBox>
-                      <Label>🚨 미입소 신고</Label>
-                      <Room>{item.name}</Room>
-                    </InfoBox>
-                    {item.status === '승인 전' ? (
-                      <StatusBtn status={item.status} style={{cursor:'pointer'}} onClick={() => navigate(`/not-admit-admin/${item.id}`)}>
-                        {item.status}
-                      </StatusBtn>
-                    ) : (
-                      <StatusBtn status={item.status}>{item.status}</StatusBtn>
-                    )}
-                  </Card>
-                ))}
-              </div>
-            ))
-          )
-        )}
+        {renderContent()}
       </Container>
-
     </Layout>
   );
 };

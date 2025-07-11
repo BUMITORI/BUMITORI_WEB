@@ -219,4 +219,24 @@ export const CancelButton = styled.button<{ disabled?: boolean }>`
     width: 100%;
     padding: 12px;
   }
+`;
+
+export const LoadingMessage = styled.div`
+  ${Pretendard.Body1}
+  color: ${theme.gray300};
+  text-align: center;
+  padding: 40px 20px;
+  background: ${theme.gray50};
+  border-radius: 8px;
+  border: 1px solid ${theme.gray100};
+`;
+
+export const ErrorMessage = styled.div`
+  ${Pretendard.Body1}
+  color: ${theme.red};
+  text-align: center;
+  padding: 40px 20px;
+  background: ${theme.gray50};
+  border-radius: 8px;
+  border: 1px solid ${theme.gray100};
 `; 

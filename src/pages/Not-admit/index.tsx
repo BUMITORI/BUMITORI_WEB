@@ -3,14 +3,17 @@ import * as S from "./mobileS";
 import Header from "../../shared/components/Header";
 import SubmitModal from "../../shared/components/Modal";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { absentApi } from "../../shared/services/api";
+import { ABSENT_REASON_OPTIONS, REASON_TO_API_MAP } from "../../shared/constants";
+import { getCurrentDate } from "../../shared/utils";
 
 const NotAdmit = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedButton, setSelectedButton] = useState<string>("");
   const [reasonText, setReasonText] = useState<string>("");
-  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().slice(0, 10));
+  const [selectedDate, setSelectedDate] = useState<string>(getCurrentDate());
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleButtonClick = (buttonName: string) => {
     setSelectedButton(buttonName);
@@ -25,10 +28,35 @@ const NotAdmit = () => {
   };
 
   const handleSubmit = () => {
-    setIsModalOpen(true);
+    if (!isSubmitDisabled) {
+      setIsModalOpen(true);
+    }
   };
 
-  const isSubmitDisabled = !(selectedButton && reasonText.trim() !== "");
+  const isSubmitDisabled = !(selectedButton && reasonText.trim() !== "") || isSubmitting;
+
+  const handleModalSubmit = async () => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      const reasonKey = REASON_TO_API_MAP[selectedButton as keyof typeof REASON_TO_API_MAP];
+      
+      await absentApi.submitAbsentRequest({
+        reason: reasonKey,
+        specificReason: reasonText,
+        absentDate: selectedDate,
+      });
+
+      setIsModalOpen(false);
+      navigate("/");
+    } catch (err) {
+      console.error("Failed to submit absent request:", err);
+      alert("제출에 실패했습니다.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -46,7 +74,7 @@ const NotAdmit = () => {
                 type="date"
                 id="date"
                 max="2025-12-29"
-                min={new Date().toISOString().slice(0, 10)}
+                min={getCurrentDate()}
                 value={selectedDate}
                 onChange={handleDateChange}
               />
@@ -54,7 +82,7 @@ const NotAdmit = () => {
             <S.ReasonChoice>
               <S.ReasonText>사유선택</S.ReasonText>
               <S.ButtonBox>
-                {['병결','체험활동','대회활동','기타'].map(item => (
+                {ABSENT_REASON_OPTIONS.map(item => (
                   <S.Button
                     key={item}
                     isSelected={selectedButton === item}
@@ -75,44 +103,14 @@ const NotAdmit = () => {
             </S.ReasonExplain>
           </S.FormContainer>
           <S.SubmitButton disabled={isSubmitDisabled} onClick={handleSubmit}>
-            제출하기
+            {isSubmitting ? "제출 중..." : "제출하기"}
           </S.SubmitButton>
         </S.NotAdmitContainer>
       </S.NotAdmitLayout>
       {isModalOpen && (
         <SubmitModal
           onClose={() => setIsModalOpen(false)}
-          onSubmit={async () => {
-            setIsModalOpen(false);
-
-            try {
-              const token = localStorage.getItem('token');
-              if (!token) {
-                alert("로그인이 필요합니다.");
-                return;
-              }
-
-              await axios.post( 
-                "https://bumitori.duckdns.org/absent/request",
-                {
-                  reason: selectedButton === "병결" ? "SICK_LEAVE"
-                        : selectedButton === "체험활동" ? "EXPERIENCE"
-                        : selectedButton === "대회활동" ? "CONTEST"
-                        : "ETC",
-                  specificReason: reasonText,
-                  absentDate: selectedDate,
-                },
-                {
-                  headers: {
-                    'Authorization': `Bearer ${token}`
-                  }
-                }
-              );
-              navigate("/");
-            } catch (e) {
-              alert("제출에 실패했습니다.");
-            }
-          }}
+          onSubmit={handleModalSubmit}
         />
       )}
     </>

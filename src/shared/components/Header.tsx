@@ -1,113 +1,115 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import AuthButton from "./AuthButton";
-
 import SmallLogo from "../../assets/smallLogo.svg";
-import NoAlarmImg from "../../assets/noAlarm.svg";
 import AlarmImg from "../../assets/alarm.svg";
+import NoAlarmImg from "../../assets/noAlarm.svg";
+import { Pretendard } from "../style/font";
 import theme from "../style/theme";
+import AuthButton from "./AuthButton";
+import type { UserInfo } from "../types";
+import { userApi } from "../services/api";
+import { getToken, clearStorage } from "../utils";
 
 interface HeaderProps {
   isAlarm?: boolean;
 }
 
-interface UserInfo {
-  userId: number;
-  email: string;
-  name: string;
-  role: string;
-  rfid: string;
-  studentNo: number;
-  roomId: string;
-  gender: string;
-  username: string;
-}
-
 const Layout = styled.header`
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  width: 100vw;
-  padding: 16px 200px;
+  align-items: center;
+  padding: 16px 40px;
+  background-color: ${theme.white};
   border-bottom: 1px solid ${theme.gray100};
+  min-height: 60px;
 
   @media (max-width: 900px) {
-    padding: 12px 30px;
-    text-align: left;
+    padding: 16px 20px;
   }
 `;
+
 const Logo = styled.img`
   cursor: pointer;
+  height: 28px;
+  width: auto;
+
   @media (max-width: 900px) {
-    width: 64px;
+    height: 24px;
   }
 `;
+
 const DetailContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 `;
+
 const Alarm = styled.img`
   cursor: pointer;
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const UserInfo = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
 `;
 
 const UserRole = styled.span`
-  font-size: 12px;
-  color: ${theme.gray400};
+  ${Pretendard.Body3}
+  color: ${theme.gray300};
   font-weight: 500;
 `;
 
 const UserName = styled.span`
-  font-size: 14px;
+  ${Pretendard.Body2}
+  color: ${theme.black};
   font-weight: 600;
-  color: ${theme.gray600};
 `;
 
 const LogoutButton = styled.button`
+  ${Pretendard.Body3}
+  color: ${theme.gray300};
   background: none;
-  border: solid lightgray 1px;
-
-  color: black;
-  font-size: 14px;
+  border: none;
   cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  padding: 0;
+  font-weight: 500;
+  transition: color 0.2s ease;
 
   &:hover {
-    background: red;
-    color: white;
+    color: ${theme.red};
   }
 `;
 
-const Header = ({ isAlarm }: HeaderProps) => {
+const Header = ({ isAlarm = false }: HeaderProps) => {
   const navigate = useNavigate();
-  const hasToken = typeof window !== 'undefined' && !!localStorage.getItem('token');
+  const hasToken = !!getToken();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchUserInfo = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) return;
+    if (!hasToken) return;
 
+    setIsLoading(true);
     try {
-      const response = await axios.get('https://bumitori.duckdns.org/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUserInfo(response.data);
+      const data = await userApi.getUserInfo();
+      setUserInfo(data);
     } catch (error) {
-      console.error('사용자 정보를 가져오는데 실패했습니다:', error);
+      console.error('Failed to fetch user info:', error);
+      // If user info fetch fails, clear token and redirect to login
+      clearStorage();
+      navigate('/auth/login');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -121,21 +123,45 @@ const Header = ({ isAlarm }: HeaderProps) => {
     return role === 'ADMIN' ? '관리자' : '학생';
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.reload();
+  const handleLogout = async () => {
+    try {
+      await userApi.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      clearStorage();
+      window.location.reload();
+    }
+  };
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
+  const handleAlarmClick = () => {
+    navigate("/alarm");
   };
 
   return (
     <Layout>
-      <Logo src={SmallLogo} onClick={() => navigate("/")}/>
+      <Logo src={SmallLogo} onClick={handleLogoClick} alt="Logo" />
       <DetailContainer>
-        {isAlarm ? <Alarm src={AlarmImg} onClick={() => navigate("/alarm")}/> : <Alarm src={NoAlarmImg}  onClick={() => navigate("/alarm")}/>}
-        {hasToken && userInfo ? (
+        <Alarm 
+          src={isAlarm ? AlarmImg : NoAlarmImg} 
+          onClick={handleAlarmClick}
+          alt="Alarm"
+        />
+        {hasToken && userInfo && !isLoading ? (
           <UserInfo>
-            <UserRole>{getRoleText(userInfo.role)} • {userInfo.roomId}</UserRole>
+            <UserRole>
+              {getRoleText(userInfo.role)} • {userInfo.roomId}
+            </UserRole>
             <UserName>{userInfo.name}님</UserName>
             <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+          </UserInfo>
+        ) : hasToken && isLoading ? (
+          <UserInfo>
+            <UserRole>로딩 중...</UserRole>
           </UserInfo>
         ) : !hasToken ? (
           <AuthButton />
