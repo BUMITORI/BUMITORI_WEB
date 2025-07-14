@@ -130,7 +130,7 @@ const Header = ({ isAlarm = false }: HeaderProps) => {
       console.error('Logout error:', error);
     } finally {
       clearStorage();
-      window.location.reload();
+    window.location.reload();
     }
   };
 

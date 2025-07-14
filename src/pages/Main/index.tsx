@@ -6,7 +6,8 @@ import Status from "../../shared/components/Status";
 import theme from "../../shared/style/theme";
 import { getJoinStatus } from "../../hooks/getJoinStatus";
 import { useStudentList } from "../../shared/hooks/useStudentList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Mobile } from "./mobile";
 
 // 현재 주차를 계산하는 함수 (예전 방식)
 const getCurrentWeekOfMonth = () => {
@@ -42,8 +43,23 @@ const Main = () => {
   const navigate = useNavigate();
   const [selectedFloor, setSelectedFloor] = useState("전체");
   const [selectedCategory, setSelectedCategory] = useState("전체");
+  const [isMobile, setIsMobile] = useState(false);
   
   const { studentList, isLoading, isError } = useStudentList();
+
+  // 화면 크기 감지
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
 
   // localStorage에서 role 가져오기
   const role = localStorage.getItem('role');
@@ -55,6 +71,22 @@ const Main = () => {
   console.log("Selected category:", selectedCategory);
   console.log("Selected floor:", selectedFloor);
 
+  // 모바일 버전 렌더링
+  if (isMobile) {
+    return (
+      <Mobile
+        selectedFloor={selectedFloor}
+        setSelectedFloor={setSelectedFloor}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        studentList={safeStudentList}
+        isError={isError}
+        isLoading={isLoading}
+      />
+    );
+  }
+
+  // 데스크탑 버전 렌더링
   // Category filtering (예전 방식)
   const categoryFiltered = safeStudentList.filter((student: any) => {
     if (selectedCategory === "전체") return true;
