@@ -192,20 +192,10 @@ export const SubmitButton = styled.button<{ disabled: boolean }>`
 `;
 
 export const ErrorMessage = styled.div`
-  ${Pretendard.Body2}
+  ${Pretendard.Body3}
   color: ${theme.red};
-  background-color: #FFF5F5;
-  border: 1px solid ${theme.red};
-  border-radius: 8px;
-  padding: 12px 16px;
-  margin: 16px 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  
-  &:before {
-    content: "⚠️";
-  }
+  margin: 8px 0;
+  font-weight: 500;
 `;
 
 export const CharCount = styled.div`

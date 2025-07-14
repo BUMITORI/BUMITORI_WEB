@@ -14,21 +14,17 @@ const NotAdmit = () => {
   const [reasonText, setReasonText] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<string>(getCurrentDate());
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleButtonClick = (buttonName: string) => {
     setSelectedButton(buttonName);
-    setErrorMessage(""); // Clear error when user makes changes
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReasonText(e.target.value);
-    setErrorMessage(""); // Clear error when user makes changes
   };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedDate(e.target.value);
-    setErrorMessage(""); // Clear error when user makes changes
   };
 
   const validateForm = (): string | null => {
@@ -75,7 +71,7 @@ const NotAdmit = () => {
   const handleSubmit = () => {
     const validationError = validateForm();
     if (validationError) {
-      setErrorMessage(validationError);
+      alert(validationError);
       return;
     }
     
@@ -90,13 +86,12 @@ const NotAdmit = () => {
     // Final validation before submission
     const validationError = validateForm();
     if (validationError) {
-      setErrorMessage(validationError);
+      alert(validationError);
       setIsModalOpen(false);
       return;
     }
 
     setIsSubmitting(true);
-    setErrorMessage("");
 
     try {
       const reasonKey = REASON_TO_API_MAP[selectedButton as keyof typeof REASON_TO_API_MAP];
@@ -141,12 +136,12 @@ const NotAdmit = () => {
         errorMsg = "로그인이 필요합니다.";
       } else if (err.response?.status === 403) {
         errorMsg = "권한이 없습니다.";
-      } else if (err.message) {
-        errorMsg = err.message;
-      }
-      
-      setErrorMessage(errorMsg);
-      setIsModalOpen(false);
+             } else if (err.message) {
+         errorMsg = err.message;
+       }
+       
+       alert(errorMsg);
+       setIsModalOpen(false);
     } finally {
       setIsSubmitting(false);
     }
@@ -160,13 +155,6 @@ const NotAdmit = () => {
           <S.TitleBox>
             <S.Title>미입소 사유</S.Title>
           </S.TitleBox>
-          <S.SubTitle>B306호 강민지</S.SubTitle>
-          
-          {errorMessage && (
-            <S.ErrorMessage>
-              {errorMessage}
-            </S.ErrorMessage>
-          )}
           
           <S.FormContainer>
             <S.DateChoice>

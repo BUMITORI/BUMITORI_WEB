@@ -5,7 +5,7 @@ export const getJoinStatus = (enterStatus: string) => {
         case "PRE_ENTER":
             return "입소전";
         case "NON_ENTER":
-            return "미입소";
+            return "입소전";
         default:
             return "알수없음";
     }

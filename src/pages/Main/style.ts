@@ -2,194 +2,118 @@ import styled from "styled-components";
 import { Pretendard } from "../../shared/style/font";
 import theme from "../../shared/style/theme";
 
-const BREAKPOINT = '900px';
-
 export const Layout = styled.main`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background: #fff;
 `;
 
 export const MainContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  min-height: calc(100vh - 60px);
-  
-  @media (max-width: ${BREAKPOINT}) {
-    flex-direction: column;
-  }
+  padding: 60px 0 200px 0;
+  justify-content: center;
 `;
 
 export const RightContainer = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 60px 40px 40px 40px;
-  
-  @media (max-width: ${BREAKPOINT}) {
-    padding: 20px;
-  }
-`;
-
-export const LeftContainer = styled.div`
-  width: 280px;
-  padding: 60px 40px 40px 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background: ${theme.gray50};
-  border-left: 1px solid ${theme.gray100};
-  
-  @media (max-width: ${BREAKPOINT}) {
-    display: none;
-  }
+  padding-right: 32px;
 `;
 
 export const TitleContainer = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 32px;
-  
-  @media (max-width: ${BREAKPOINT}) {
-    flex-direction: column;
-    gap: 16px;
-  }
+  gap: 16px;
 `;
 
 export const TextContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  gap: 16px;
 `;
 
-export const Title = styled.h1`
+export const Title = styled.span`
   ${Pretendard.Title1}
   color: ${theme.black};
-  margin: 0;
-  
-  @media (max-width: ${BREAKPOINT}) {
-    font-size: 1.5rem;
-  }
 `;
 
-export const Date = styled.p`
+export const Date = styled.span`
   ${Pretendard.Body3}
   color: ${theme.gray300};
-  margin: 0;
-  
-  @media (max-width: ${BREAKPOINT}) {
-    font-size: 0.875rem;
-  }
 `;
 
 export const RightWholeBtnContainer = styled.div`
-  display: flex;
-  gap: 16px;
-  margin-bottom: 32px;
-  
-  @media (max-width: ${BREAKPOINT}) {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 24px;
-  }
+  padding-top: 20px;
+  border-bottom: 1px solid ${theme.gray100};
 `;
 
 export const StudentListContainer = styled.div`
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  flex: 1;
-  overflow-y: auto;
-  max-height: calc(100vh - 400px);
-  
-  @media (max-width: ${BREAKPOINT}) {
-    max-height: none;
-  }
+  gap: 16px;
 `;
 
 export const Line = styled.div`
-  width: 1px;
-  background: ${theme.gray100};
-  
-  @media (max-width: ${BREAKPOINT}) {
-    display: none;
-  }
+  border-right: 1px solid ${theme.gray100};
+`;
+
+export const LeftContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-left: 32px;
+  gap: 20px;
+  align-items: center;
+`;
+
+export const WholeBtn = styled.button`
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  ${Pretendard.Bnt2}
+  color: ${theme.blue};
 `;
 
 export const FloorBtn = styled.button`
-  ${Pretendard.Body2}
-  background: none;
   border: none;
-  padding: 12px 16px;
-  text-align: left;
+  background-color: transparent;
   cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background: ${theme.gray100};
-  }
-  
-  &:active {
-    background: ${theme.gray200};
-  }
+  ${Pretendard.Bnt2}
 `;
 
 export const NoJoinBtn = styled.button`
-  ${Pretendard.Headline}
-  color: ${theme.white};
-  background: ${theme.red};
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 16px 24px;
   border: none;
+  background-color: ${theme.red};
+  ${Pretendard.Bnt2}
   cursor: pointer;
-  margin-top: auto;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    opacity: 0.9;
-  }
-  
-  &:active {
-    opacity: 0.8;
-  }
-  
-  @media (max-width: ${BREAKPOINT}) {
-    margin-top: 24px;
-    width: 100%;
-    padding: 12px;
-  }
+  color: ${theme.white};
+  padding: 12px 22.5px;
+  border-radius: 8px;
 `;
 
 export const ErrorMessage = styled.div`
-  ${Pretendard.Body1}
-  color: ${theme.red};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  height: 200px;
+  color: ${theme.gray400};
+  font-size: 18px;
   text-align: center;
-  padding: 40px 20px;
-  background: ${theme.gray50};
-  border-radius: 8px;
-  border: 1px solid ${theme.gray100};
 `;
 
-export const LoadingMessage = styled.div`
-  ${Pretendard.Body1}
-  color: ${theme.gray300};
-  text-align: center;
-  padding: 40px 20px;
-  background: ${theme.gray50};
-  border-radius: 8px;
-  border: 1px solid ${theme.gray100};
-`;
-
-export const MobileDropdownContainer = styled.div`
-  display: none;
+export const LoginButton = styled.button`
+  padding: 10px 20px;
+  background-color: ${theme.blue};
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
   
-  @media (max-width: ${BREAKPOINT}) {
-    display: block;
-    margin-top: 16px;
+  &:hover {
+    background-color: ${theme.pressed};
   }
 `; 
