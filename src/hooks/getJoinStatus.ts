@@ -7,6 +7,6 @@ export const getJoinStatus = (enterStatus: string) => {
         case "NON_ENTER":
             return "입소전";
         default:
-            return "알수없음";
+            return "입소 완료";
     }
 };
