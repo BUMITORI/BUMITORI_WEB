@@ -31,11 +31,11 @@ const Layout = styled.header`
 
 const Logo = styled.img`
   cursor: pointer;
-  height: 28px;
+  height: 20px;
   width: auto;
 
   @media (max-width: 900px) {
-    height: 24px;
+    height: 16px;
   }
 `;
 
@@ -58,7 +58,7 @@ const Alarm = styled.img`
 
 const UserInfo = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-end;
   gap: 4px;
 `;
