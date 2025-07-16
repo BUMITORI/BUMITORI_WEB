@@ -24,7 +24,7 @@ const JoinCategory = ({ isJoin }: JoinCategoryProps) => {
   } else if (isJoin === "미입소") {
     color = theme.red;
   } else {
-    color = theme.red; // 입소전도 빨간색으로 변경
+    color = theme.red;
   }
 
   return (
