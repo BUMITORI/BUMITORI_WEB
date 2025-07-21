@@ -142,6 +142,7 @@ const Main = () => {
               filteredList.map((student: any, idx: number) => (
                 <Status
                   key={idx}
+                  roomPrefix={student.roomPrefix}
                   joinStatus={getJoinStatus(student.enterStatus)}
                   name={student.name}
                   roomNumber={`${student.roomNumber}`}

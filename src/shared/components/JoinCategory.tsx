@@ -22,7 +22,7 @@ const JoinCategory = ({ isJoin }: JoinCategoryProps) => {
   if (isJoin === "입소 완료") {
     color = theme.blue;
   } else if (isJoin === "미입소") {
-    color = theme.red;
+    color = theme.green;
   } else {
     color = theme.red;
   }
