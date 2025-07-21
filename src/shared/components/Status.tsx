@@ -8,7 +8,7 @@ interface StatusProps {
   roomNumber: string;
   name: string;
   date: string;
-  roomPrefix: string;
+  roomPrefix?: string;
 }
 
 const Layout = styled.main`
@@ -45,7 +45,7 @@ const TextContainer = styled.div`
 
 const Status = ({
   joinStatus,
-  roomPrefix,
+  roomPrefix = "",
   roomNumber,
   name,
   date,
@@ -56,7 +56,7 @@ const Status = ({
         <JoinCategory isJoin={joinStatus} />
         <TextContainer>
           <StudentInfo>
-            {roomPrefix}동 {roomNumber}호 {name}
+            {roomPrefix && `${roomPrefix}동 `}{roomNumber}호 {name}
           </StudentInfo>
           <DateShow>{date}</DateShow>
         </TextContainer>
